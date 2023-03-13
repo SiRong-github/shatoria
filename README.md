@@ -1,2 +1,0 @@
-# shatoria
-comp30024
