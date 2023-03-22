@@ -2,6 +2,18 @@
 # Project Part A: Single Player Infexion
 
 from .utils import render_board
+# from queue import Queue
+
+up = (1, -1)
+upLeft = (0, -1)
+upRight = (1, 0)
+down = (-1, 1)
+downLeft = (-1, 0)
+downRight = (0, 1)
+
+
+def conversionDictNode(input: dict[tuple, tuple]):
+    return
 
 
 def search(input: dict[tuple, tuple]) -> list[tuple]:
@@ -14,10 +26,25 @@ def search(input: dict[tuple, tuple]) -> list[tuple]:
     See the specification document for more details.
     """
 
-    # The render_board function is useful for debugging -- it will print out a 
-    # board state in a human-readable format. Try changing the ansi argument 
+    # The render_board function is useful for debugging -- it will print out a
+    # board state in a human-readable format. Try changing the ansi argument
     # to True to see a colour-coded version (if your terminal supports it).
-    print(render_board(input, ansi=False))
+    print(render_board(input, ansi=True))
+
+    # Make nodes
+
+    # queue = queue(343)
+
+    # Append dictionary items to queue
+
+    # for input in input.items():
+    #     queue.put(input)
+
+    # for item in queue:
+    #     print(item)
+
+    # print(queue[0])
+    print(up)
 
     # Here we're returning "hardcoded" actions for the given test.csv file.
     # Of course, you'll need to replace this with an actual solution...
