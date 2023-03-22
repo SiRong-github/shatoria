@@ -38,7 +38,7 @@ def spread(r, q, dr, dq, board, actions_list):
 def valid_spread(cell, board):
     """Return true if it's possible to spread cell (r, q), and false otherwise."""
 
-    return ((cell in board) or (get_color((r, q), board) == "r"))
+    return ((cell in board) or (get_color(cell, board) == "r"))
 
 def check_bounds(cell):
     """If coordinates of a new cell is beyond the bounds of the board when spreading, adjust so that ___. """
