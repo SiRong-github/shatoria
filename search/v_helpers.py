@@ -1,6 +1,7 @@
 MIN_COORDINATE = 0
 MAX_COORDINATE = 6
 
+
 def spread(r, q, dr, dq, board, actions_list):
     """Spreads a red cell (r, q) to the direction (dr, dq). Updates board and list of actions accordingly."""
 
@@ -11,7 +12,7 @@ def spread(r, q, dr, dq, board, actions_list):
 
     curr_power = get_power((r, q), board)
 
-    spread_cell = (r + dr, q + dq) 
+    spread_cell = (r + dr, q + dq)
     while (curr_power != 0):
         print(spread_cell)
         spread_cell = check_bounds(spread_cell)
@@ -19,7 +20,7 @@ def spread(r, q, dr, dq, board, actions_list):
 
         if (spread_cell not in board):
             board[spread_cell] = ("r", 1)
-        
+
         else:
             board[spread_cell] = ("r", get_power(spread_cell, board) + 1)
 
@@ -35,10 +36,12 @@ def spread(r, q, dr, dq, board, actions_list):
 
     return
 
+
 def valid_spread(cell, board):
     """Return true if it's possible to spread cell (r, q), and false otherwise."""
 
     return ((cell in board) or (get_color(cell, board) == "r"))
+
 
 def check_bounds(cell):
     """If coordinates of a new cell is beyond the bounds of the board when spreading, adjust so that ___. """
@@ -54,12 +57,13 @@ def check_bounds(cell):
         cell = (cell[0], MIN_COORDINATE)
 
     return cell
-    
+
 
 def get_color(cell, board):
     """Returns color of cell (r, q) in board."""
 
     return board[cell][0]
+
 
 def get_power(cell, board):
     """Returns power of cell (r, q) in board."""
