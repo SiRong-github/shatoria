@@ -45,3 +45,10 @@ def neighbours(token, board):
                 neighbours.append(item)
 
     return neighbours
+
+def get_first_red_cell(board):
+    """Finds first red cell in board to start BFS from"""
+
+    for coordinates, attributes in board.items():
+        if (attributes[0] == "r"):
+            return coordinates
