@@ -1,7 +1,6 @@
 MIN_COORDINATE = 0
 MAX_COORDINATE = 6
 
-
 def spread(r, q, dr, dq, board, actions_list):
     """Spreads a red cell (r, q) to the direction (dr, dq). Updates board and list of actions accordingly."""
 
