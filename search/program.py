@@ -23,16 +23,35 @@ def search(input: dict[tuple, tuple]) -> list[tuple]:
     print(render_board(input, ansi=True))
 
     # Initialise variables
-    board = []
-    red = []
+    red = {}
+    blue = {}
     solutions = PriorityQueue(maxsize=0)
     solution = Queue(maxsize=0)
 
-    # Convert dictionary to list
-    for item in input.items():
-        # board.append(item)
-        if (item[1][0] == 'r'):
-            red.append(item)
+    # Get blue and red tokens and put them into a dictionary
+    for key, value in input.items():
+        if (value[0] == 'b'):
+            blue.update({key: value})
+        else:
+            red.update({key: value})
+            # get first red token for BFS
+
+    print("blue")
+    print(type(blue))
+    print(blue)
+    print("red")
+    print(type(red))
+    print(red)
+    print("\n")
+
+    print("firstRed")
+    firstRed = next(iter(red.items()))  # tuple
+    print(type(firstRed))
+    print(firstRed)
+    print("\n")
+
+    board = dict(input)  # create copy of board
+    solution = bfs(firstRed, blue)
 
     # Space-Time Trade-Off
     # It is more efficient to use a dictionary for lookup of elements because it takes less time to traverse in the dictionary than a list.
