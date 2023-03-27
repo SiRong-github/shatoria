@@ -5,6 +5,7 @@ from .utils import render_board
 from queue import Queue
 from queue import PriorityQueue
 from .bfsHelpers import *
+from .euclidean_search import *
 
 
 def search(input: dict[tuple, tuple]) -> list[tuple]:
@@ -25,6 +26,7 @@ def search(input: dict[tuple, tuple]) -> list[tuple]:
     # Initialise variables
     board = []
     red = []
+    blue = []
     solutions = PriorityQueue(maxsize=0)
     solution = Queue(maxsize=0)
 
@@ -33,6 +35,12 @@ def search(input: dict[tuple, tuple]) -> list[tuple]:
         # board.append(item)
         if (item[1][0] == 'r'):
             red.append(item)
+        else:
+            blue.append(item)
+
+    actions_list = list()
+
+    euclidean_search(red, blue, input, actions_list)
 
     # Space-Time Trade-Off
     # It is more efficient to use a dictionary for lookup of elements because it takes less time to traverse in the dictionary than a list.
@@ -45,15 +53,15 @@ def search(input: dict[tuple, tuple]) -> list[tuple]:
 
     for token in red:
         board = dict(input)
-        print(token)
-        print(board)
         # solution = bfs(token, board)
         # print(solution)
         # print(solution.qsize)
         # solutions.append(solution.qsize, solution)
 
+    print(render_board(input, ansi=True))
+
     # print(solutions.get())
-    return  # solutions.get()
+    return actions_list# solutions.get()
 
     # Here we're returning "hardcoded" actions for the given test.csv file.
     # Of course, you'll need to replace this with an actual solution...

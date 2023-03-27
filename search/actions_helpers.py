@@ -13,9 +13,8 @@ def spread(r, q, dr, dq, board, actions_list):
 
     spread_cell = (r + dr, q + dq)
     while (curr_power != 0):
-        print(spread_cell)
         spread_cell = check_bounds(spread_cell)
-        print(spread_cell)
+        print(f"Spreading to:{spread_cell}")
 
         if (spread_cell not in board):
             board[spread_cell] = ("r", 1)
