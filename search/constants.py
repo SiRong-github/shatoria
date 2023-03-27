@@ -7,3 +7,5 @@ down = (-1, 1)
 downLeft = (-1, 0)
 downRight = (0, 1)
 limit = 343
+
+DIRECTIONS = [up, upLeft, upRight, down, downLeft, downRight]
