@@ -2,8 +2,8 @@ MIN_COORDINATE = 0
 MAX_COORDINATE = 6
 
 def spread(r, q, dr, dq, board, actions_list):
-    """Spreads a red cell (r, q) to the direction (dr, dq). Updates board and list of actions accordingly."""
-
+    """Spreads a red cell (r, q) to the direction (dr, dq). Updates board and list of actions accordingly. Returns new red cell coordinates and power"""
+    new_red_cells = list()
     parent_cell = (r, q)
 
     if not valid_spread(parent_cell, board):
@@ -21,18 +21,18 @@ def spread(r, q, dr, dq, board, actions_list):
 
         else:
             board[spread_cell] = ("r", get_power(spread_cell, board) + 1)
-
-        actions_list.append(spread_cell + (dr, dq))
+            
+        new_red_cells.append(tuple((spread_cell, board[spread_cell])))
 
         curr_power -= 1
         spread_cell = (spread_cell[0] + dr, spread_cell[1] + dq)
 
-    print(actions_list)
+    actions_list.append(parent_cell + (dr, dq))
 
     # Empty parent cell
     del board[(r, q)]
 
-    return
+    return new_red_cells
 
 
 def valid_spread(cell, board):
