@@ -35,6 +35,8 @@ def bfs(start, board):
             if (neighbour not in visited):
                 q.put(neighbour)
 
+    print("q empty")
+
     return q
 
 
@@ -47,7 +49,7 @@ def neighbours(token, board):
     neighboursIndex = []
 
     u = token[0]
-    power = 14  # token[1][1]
+    power = token[1][1]
 
     print("u")
     print(u)
@@ -55,6 +57,7 @@ def neighbours(token, board):
     print(power)
     print("\n")
 
+    # Get indices of token's neighbours
     for i in range(1, power+1):
         neighboursIndex.append(addTuples(u, multiplyPower(up, i)))
         neighboursIndex.append(addTuples(u, multiplyPower(upLeft, i)))
@@ -63,14 +66,11 @@ def neighbours(token, board):
         neighboursIndex.append(addTuples(u, multiplyPower(downLeft, i)))
         neighboursIndex.append(addTuples(u, multiplyPower(downRight, i)))
 
-    print("\n")
+    # Check bounds for each neighbour and modify accordingly
     for neighbourIndex in neighboursIndex:
-        print("neighbourIndex before")
-        print(neighbourIndex)
         neighbourIndex = check_bounds(neighbourIndex)
-        print("neighbourIndex after")
+        print("neighbourIndex")
         print(neighbourIndex)
-        print("\n")
 
         # for item in board:
         #     print(item)

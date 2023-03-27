@@ -28,30 +28,18 @@ def search(input: dict[tuple, tuple]) -> list[tuple]:
     solutions = PriorityQueue(maxsize=0)
     solution = Queue(maxsize=0)
 
-    # Get blue and red tokens and put them into a dictionary
+    # Get blue and red tokens and put them into two dictionaries (this is for the heuristic part i think)
     for key, value in input.items():
         if (value[0] == 'b'):
             blue.update({key: value})
         else:
             red.update({key: value})
-            # get first red token for BFS
 
-    print("blue")
-    print(type(blue))
-    print(blue)
-    print("red")
-    print(type(red))
-    print(red)
-    print("\n")
-
-    print("firstRed")
-    firstRed = next(iter(red.items()))  # tuple
-    print(type(firstRed))
-    print(firstRed)
-    print("\n")
+    # Get first red token in the form of tuple
+    firstRed = next(iter(red.items()))
 
     board = dict(input)  # create copy of board
-    solution = bfs(firstRed, blue)
+    solution = bfs(firstRed, board)
 
     # Space-Time Trade-Off
     # It is more efficient to use a dictionary for lookup of elements because it takes less time to traverse in the dictionary than a list.
@@ -62,24 +50,12 @@ def search(input: dict[tuple, tuple]) -> list[tuple]:
     # You can look up the current occupancy/power of a cell using a coordinate tuple (r, q) as a key.
     # Just keep in mind that not all cells are necessarily occupied (the dictionary is a sparse representation), so check that the key exists before using it.
 
-    for token in red:
-        board = dict(input)
-        print(token)
-        print(board)
-        # solution = bfs(token, board)
-        # print(solution)
-        # print(solution.qsize)
-        # solutions.append(solution.qsize, solution)
-
-    # print(solutions.get())
-    return  # solutions.get()
-
     # Here we're returning "hardcoded" actions for the given test.csv file.
     # Of course, you'll need to replace this with an actual solution...
-    # return [
-    #     (5, 6, -1, 1),
-    #     (3, 1, 0, 1),
-    #     (3, 2, -1, 1),
-    #     (1, 4, 0, -1),
-    #     (1, 3, 0, -1)
-    # ]
+    return [
+        (5, 6, -1, 1),
+        (3, 1, 0, 1),
+        (3, 2, -1, 1),
+        (1, 4, 0, -1),
+        (1, 3, 0, -1)
+    ]
