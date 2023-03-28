@@ -4,9 +4,9 @@ from .actions_helpers import *
 from queue import PriorityQueue
 
 def euclidean_search(board, actions_list):
-    """Infects blue cells with A* search, with euclidean distance as a heuristic. Stops when all blue cells are infected"""
+    """Infects blue cells with A* search, with distance as a heuristic. Stops when all blue cells are infected"""
 
-    # heuristic = euclidean distance to closest blue cell (math.dist())
+    # heuristic = distance to closest blue cell
 
     # stop when all blue cells are colonized
 
@@ -34,7 +34,7 @@ def euclidean_search(board, actions_list):
             blue_infected, new_reds = expand_cell(to_expand, target, board, actions_list)
 
             for red_cell_rq in new_reds:
-                closest_blues[red_cell_rq] = (target, math.dist(red_cell_rq, target))
+                closest_blues[red_cell_rq] = (target, get_distance(red_cell_rq, target))
                 pq.put((closest_blues[red_cell_rq][1], red_cell_rq + target))
 
             del closest_blues[to_expand]
@@ -55,18 +55,11 @@ def euclidean_search(board, actions_list):
         pq = PriorityQueue()
         for key, value in closest_blues.items():
             pq.put((value[1], key + value[0])) # (distance, (red cell coordinates, target blue cell coordinates))
-        
-        i += 1
-
-        
-    # expand cells until we find a solution
 
     return
 
 def expand_cell(red_cell_rq, target_blue_cell, board, actions_list):
     """Expand cell in best direction to spread to (the one which brings it closer to its target cell"""
-
-    #TODO: ADD NEW CELLS TO PQ
 
     # initialize var to store best direction to spread to
     best_direction = (tuple(), 10)
@@ -75,7 +68,7 @@ def expand_cell(red_cell_rq, target_blue_cell, board, actions_list):
         new_red_cell_rq = (red_cell_rq[0] + direction[0], red_cell_rq[1] + direction[1])
 
         # distance from new cell to target blue cell
-        new_dist = math.dist(new_red_cell_rq, target_blue_cell)
+        new_dist = get_distance(new_red_cell_rq, target_blue_cell)
 
         if (new_dist < best_direction[1]):
             best_direction = (direction, new_dist)
@@ -90,7 +83,7 @@ def update_closest_blue(red_cell_rq, blues, closest_blues):
     
     for blue_cell in blues:
         blue_cell_rq = blue_cell[0]
-        distance = math.dist(red_cell_rq, blue_cell_rq)
+        distance = get_distance(red_cell_rq, blue_cell_rq) #HERE
 
         if (red_cell_rq not in closest_blues):
             closest_blues[red_cell_rq] = (blue_cell_rq, distance)
@@ -110,3 +103,11 @@ def get_red_blue_cells(board):
             blue.append(item)
     
     return red, blue
+
+def get_distance(cell1_rq, cell2_rq):
+    """Get distance between 2 cells"""
+
+    r_dist = min(abs(cell1_rq[0] - cell2_rq[0]), 6 - abs(cell1_rq[0] - cell2_rq[0]))
+    q_dist = min(abs(cell1_rq[1] - cell2_rq[1]), 6 - abs(cell1_rq[1] - cell2_rq[1]))
+
+    return q_dist + r_dist

@@ -1,6 +1,7 @@
+from .utils import render_board #comment out later
+
 MIN_COORDINATE = 0
 MAX_COORDINATE = 6
-
 
 def spread(r, q, dr, dq, board, actions_list):
     """Spreads a red cell (r, q) to the direction (dr, dq). Updates board and list of actions accordingly. Returns True if any blue cell was infected"""
@@ -19,7 +20,7 @@ def spread(r, q, dr, dq, board, actions_list):
     spread_cell = (r + dr, q + dq)
     while (curr_power != 0):
         spread_cell = check_bounds(spread_cell)
-        print(f"Spreading to:{spread_cell}")
+        # print(f"Spreading to:{spread_cell}")
 
         if (spread_cell not in board):
             board[spread_cell] = ("r", 1)
@@ -38,6 +39,8 @@ def spread(r, q, dr, dq, board, actions_list):
 
     # Empty parent cell
     del board[(r, q)]
+
+    print(render_board(board, ansi=True))
 
     return (blue_infected, new_red_cells)
 
