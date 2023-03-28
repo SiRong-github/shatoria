@@ -4,7 +4,10 @@ MAX_COORDINATE = 6
 
 def spread(r, q, dr, dq, board, actions_list):
     """Spreads a red cell (r, q) to the direction (dr, dq). Updates board and list of actions accordingly. Returns True if any blue cell was infected"""
+
+    print("Spread!")
     blue_infected = False
+    new_red_cells = list()
 
     parent_cell = (r, q)
 
@@ -26,6 +29,8 @@ def spread(r, q, dr, dq, board, actions_list):
                 blue_infected = True
             board[spread_cell] = ("r", get_power(spread_cell, board) + 1)
 
+        new_red_cells.append(spread_cell)
+
         curr_power -= 1
         spread_cell = (spread_cell[0] + dr, spread_cell[1] + dq)
 
@@ -34,7 +39,7 @@ def spread(r, q, dr, dq, board, actions_list):
     # Empty parent cell
     del board[(r, q)]
 
-    return blue_infected
+    return (blue_infected, new_red_cells)
 
 
 def valid_spread(cell, board):
