@@ -1,6 +1,7 @@
 MIN_COORDINATE = 0
 MAX_COORDINATE = 6
 
+
 def spread(r, q, dr, dq, board, actions_list):
     """Spreads a red cell (r, q) to the direction (dr, dq). Updates board and list of actions accordingly. Returns True if any blue cell was infected"""
     blue_infected = False
@@ -46,14 +47,14 @@ def check_bounds(cell):
     """If coordinates of a new cell is beyond the bounds of the board when spreading, adjust so that ___. """
 
     if (cell[0] < MIN_COORDINATE):
-        cell = (MAX_COORDINATE, cell[1])
+        cell = (cell[0] % (MAX_COORDINATE+1), cell[1])
     elif (cell[0] > MAX_COORDINATE):
-        cell = (MIN_COORDINATE, cell[1])
+        cell = (cell[0] % (MAX_COORDINATE+1), cell[1])
 
     if (cell[1] < MIN_COORDINATE):
-        cell = (cell[0], MAX_COORDINATE)
+        cell = (cell[0], cell[1] % (MAX_COORDINATE+1))
     elif (cell[1] > MAX_COORDINATE):
-        cell = (cell[0], MIN_COORDINATE)
+        cell = (cell[0], cell[1] % (MAX_COORDINATE+1))
 
     return cell
 
