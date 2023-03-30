@@ -26,19 +26,23 @@ def astar_search(board):
     all_states[1] = root_node
 
     pq.put((root_node["score"], root_node["id"]))
-    current_node = root_node
+    current_node = all_states[pq.get()[1]]
 
     i = 0
 
-    while not is_goal_state(current_node) and i != 1:
+    while not is_goal_state(current_node) and i != 5:
         for child_node in generate_children(current_node, total_index):
             all_states[child_node["id"]] = child_node
             pq.put((child_node["score"], child_node["id"]))
+            print(render_board(child_node["board"], True))
         i += 1
 
-        while not pq.empty():
-            print(pq.get())
+        #while not pq.empty():
+         #   print(pq.get())
+
         print("DONE")
+        print(render_board(current_node["board"], True))
+        current_node = all_states[pq.get()[1]]
 
 def generate_children(parent_state, total_index):
     """Generate all possible children of a board state. Add to priority queue"""
