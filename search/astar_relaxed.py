@@ -23,7 +23,7 @@ def astar_relaxed(board):
     }
 
     root_node["score"] = root_node["depth"] + get_board_score(board)
-    generate_children(root_node)
+    
 
 def generate_children(parent_board, queue, total_index):
     """Generate all possible children of a board state. Add to priority queue"""
@@ -36,7 +36,7 @@ def generate_children(parent_board, queue, total_index):
         # expand red cell in all the possible directions
         for direction in DIRECTIONS:
             child_state = spread2(red_cell, direction, parent_board)
-            print(child_state)
+            
             create_node(red_cell, child_state, (red_cell + direction),total_index)
         # evaluate 'score' of state
         # add to PQ

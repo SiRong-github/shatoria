@@ -30,19 +30,30 @@ def astar_search(board):
 
     i = 0
 
-    while not is_goal_state(current_node) and i != 5:
+    while not is_goal_state(current_node):
         for child_node in generate_children(current_node, total_index):
             all_states[child_node["id"]] = child_node
             pq.put((child_node["score"], child_node["id"]))
-            print(render_board(child_node["board"], True))
+            # print(render_board(child_node["board"], True))
+            total_index += 1
         i += 1
 
         #while not pq.empty():
          #   print(pq.get())
 
-        print("DONE")
-        print(render_board(current_node["board"], True))
+        #print("DONE")
+        # print(render_board(current_node["board"], True))
         current_node = all_states[pq.get()[1]]
+        #print(render_board(current_node["board"], True))
+        
+    moves_made = list()
+    while current_node["parent_id"] != None:
+        # print(render_board(current_node["board"], True))
+        moves_made.insert(0, current_node["most_recent_move"])
+        current_node = all_states[current_node["parent_id"]]
+    
+    return moves_made
+
 
 def generate_children(parent_state, total_index):
     """Generate all possible children of a board state. Add to priority queue"""
@@ -57,7 +68,7 @@ def generate_children(parent_state, total_index):
         for direction in DIRECTIONS:
             # print(parent_board)
             child_board = spread2(red_cell, direction, parent_board)
-            child_node = create_node(parent_state, child_board, (red_cell + direction), total_index)
+            child_node = create_node(parent_state, child_board, (red_cell[0] + direction), total_index)
             
             child_nodes.append(child_node)
             total_index += 1
