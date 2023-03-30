@@ -2,9 +2,9 @@ from .constants import *
 from .actions_2 import *
 from .actions_helpers import *
 from queue import PriorityQueue
-from .utils import render_board
 
-def astar_search(board):
+#most simple a star where h(n) = number of blue cells left
+def astar_relaxed(board):
     """Conducts A star search on board. Returns list of actions to get to goal state."""
 
     # Priority queue of board states
@@ -23,12 +23,11 @@ def astar_search(board):
     }
 
     root_node["score"] = root_node["depth"] + get_board_score(board)
-    print(root_node)
-    generate_children(root_node, total_index)
+    generate_children(root_node)
 
-def generate_children(parent_state, total_index):
+def generate_children(parent_board, queue, total_index):
     """Generate all possible children of a board state. Add to priority queue"""
-    parent_board = parent_state["board"]
+
     red, blue = get_red_blue_cells(parent_board)
 
     # for each red cell in board state
@@ -36,17 +35,16 @@ def generate_children(parent_state, total_index):
 
         # expand red cell in all the possible directions
         for direction in DIRECTIONS:
-            print(parent_board)
-            child_board = spread2(red_cell, direction, parent_board)
-            create_node(parent_state, child_board, (red_cell + direction),total_index)
-            print(render_board(child_board, ansi=True))
+            child_state = spread2(red_cell, direction, parent_board)
+            print(child_state)
+            create_node(red_cell, child_state, (red_cell + direction),total_index)
         # evaluate 'score' of state
         # add to PQ
 
 def get_board_score(board):
-    """Gets sum of min. number of moves needed to go from each blue cell to their closest red cells"""
+    """Gets number of blue cells remaining in the board for the move, assuming that red cells can travel any distance on one axis."""
 
-    sum_min_moves = 0
+    sum_moves = 0
     reds, blues = get_red_blue_cells(board)
 
     for blue_cell in blues:

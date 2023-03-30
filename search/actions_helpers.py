@@ -45,10 +45,10 @@ def spread(r, q, dr, dq, board, actions_list):
     return (blue_infected, new_red_cells)
 
 
-def valid_spread(cell, board):
+def valid_spread(cell_rq, board):
     """Return true if it's possible to spread cell (r, q), and false otherwise."""
 
-    return ((cell in board) or (get_color(cell, board) == "r"))
+    return ((cell_rq in board) or (get_color(cell_rq, board) == "r"))
 
 
 def check_bounds(cell):

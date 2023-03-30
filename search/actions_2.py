@@ -5,10 +5,10 @@ def spread2(cell, direction, board):
 
     copied_board = board.copy()
 
-    if not valid_spread(cell, copied_board):
+    cell_rq = cell[0]
+    if not valid_spread(cell_rq, copied_board):
         return False
     
-    cell_rq = cell[0]
     curr_power = get_power(cell_rq, copied_board)
 
     spread_cell = (cell_rq[0] + direction[0], cell_rq[1] + direction[1])
