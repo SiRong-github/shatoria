@@ -5,6 +5,7 @@ from .utils import render_board
 from queue import Queue
 from queue import PriorityQueue
 from .bfsHelpers import *
+from .bfsSolver import *
 
 
 def search(input: dict[tuple, tuple]) -> list[tuple]:
@@ -21,25 +22,12 @@ def search(input: dict[tuple, tuple]) -> list[tuple]:
     # board state in a human-readable format. Try changing the ansi argument
     # to True to see a colour-coded version (if your terminal supports it).
     print(render_board(input, ansi=True))
+    print(input)
 
-    # Initialise variables
-    red = {}
-    blue = {}
-    solutions = PriorityQueue(maxsize=0)
-    solution = Queue(maxsize=0)
-
-    # Get blue and red tokens and put them into two dictionaries (this is for the heuristic part i think)
-    for key, value in input.items():
-        if (value[0] == 'b'):
-            blue.update({key: value})
-        else:
-            red.update({key: value})
-
-    # Get first red token in the form of tuple
-    firstRed = next(iter(red.items()))
-
-    board = dict(input)  # create copy of board
-    solution = bfs(firstRed, board)
+    # Solution based on BFS
+    # Input: type dictionary input of board state
+    # Output: list of actions to conquer all blue tokens
+    solution = bfsSolver(input)
 
     # Space-Time Trade-Off
     # It is more efficient to use a dictionary for lookup of elements because it takes less time to traverse in the dictionary than a list.
