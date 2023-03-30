@@ -6,6 +6,7 @@ from queue import Queue
 from queue import PriorityQueue
 from .bfsHelpers import *
 from .euclidean_search import *
+from .astar_revival import *
 
 def search(input: dict[tuple, tuple]) -> list[tuple]:
     """
@@ -24,7 +25,7 @@ def search(input: dict[tuple, tuple]) -> list[tuple]:
     # to True to see a colour-coded version (if your terminal supports it).
     print(render_board(input, ansi=True))
 
-    euclidean_search(input, actions_list)
+    astar_search(input)
 
     print(render_board(input, ansi=True))
 

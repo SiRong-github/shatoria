@@ -6,7 +6,7 @@ MAX_COORDINATE = 6
 def spread(r, q, dr, dq, board, actions_list):
     """Spreads a red cell (r, q) to the direction (dr, dq). Updates board and list of actions accordingly. Returns True if any blue cell was infected"""
 
-    print("Spread!")
+    # print("Spread!")
     blue_infected = False
     new_red_cells = list()
 
@@ -67,13 +67,13 @@ def check_bounds(cell):
     return cell
 
 
-def get_color(cell, board):
+def get_color(cell_rq, board):
     """Returns color of cell (r, q) in board."""
 
-    return board[cell][0]
+    return board[cell_rq][0]
 
 
-def get_power(cell, board):
+def get_power(cell_rq, board):
     """Returns power of cell (r, q) in board."""
 
-    return board[cell][1]
+    return board[cell_rq][1]
