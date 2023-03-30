@@ -7,8 +7,8 @@ from .utils import render_board
 def astar_search(board):
     """Conducts A star search on board. Returns list of actions to get to goal state."""
 
-    # Priority queue of board states
-    # Each board state has to retain f(n) = current node depth + g(n)
+    all_states = dict()
+    pq = PriorityQueue()
 
     # priority queue depth but where do we start
     total_index = 1
@@ -23,25 +23,45 @@ def astar_search(board):
     }
 
     root_node["score"] = root_node["depth"] + get_board_score(board)
-    print(root_node)
-    generate_children(root_node, total_index)
+    all_states[1] = root_node
+
+    pq.put((root_node["score"], root_node["id"]))
+    current_node = root_node
+
+    i = 0
+
+    while not is_goal_state(current_node) and i != 1:
+        for child_node in generate_children(current_node, total_index):
+            all_states[child_node["id"]] = child_node
+            pq.put((child_node["score"], child_node["id"]))
+        i += 1
+
+        while not pq.empty():
+            print(pq.get())
+        print("DONE")
 
 def generate_children(parent_state, total_index):
     """Generate all possible children of a board state. Add to priority queue"""
     parent_board = parent_state["board"]
     red, blue = get_red_blue_cells(parent_board)
 
+    child_nodes = list()
     # for each red cell in board state
     for red_cell in red:
 
         # expand red cell in all the possible directions
         for direction in DIRECTIONS:
-            print(parent_board)
+            # print(parent_board)
             child_board = spread2(red_cell, direction, parent_board)
-            create_node(parent_state, child_board, (red_cell + direction),total_index)
-            print(render_board(child_board, ansi=True))
+            child_node = create_node(parent_state, child_board, (red_cell + direction), total_index)
+            
+            child_nodes.append(child_node)
+            total_index += 1
+            # print(render_board(child_board, ansi=True))
         # evaluate 'score' of state
         # add to PQ
+
+    return child_nodes
 
 def get_board_score(board):
     """Gets sum of min. number of moves needed to go from each blue cell to their closest red cells"""
@@ -99,9 +119,9 @@ def create_node(parent_state, new_state, new_move, total_index):
 
     return new_node
 
-def is_goal_state(board):
-    "Returns whether or not an input board is a goal state"
+def is_goal_state(node):
+    "Returns whether or not a node has reached goal state"
 
-    reds, blues = get_red_blue_cells(board)
+    reds, blues = get_red_blue_cells(node["board"])
     
     return len(blues) == 0
