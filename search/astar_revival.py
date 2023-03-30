@@ -40,26 +40,25 @@ def generate_children(parent_board, queue, total_index):
         # add to PQ
 
 def get_board_score(board):
-    """Gets sum of distances of blue cell to their closest red cells - intuitively the closer a red cell is to a blue cell the closer we can get to infect them, winning the game"""
+    """Gets sum of min. number of moves needed to go from each blue cell to their closest red cells"""
 
-    sum_minimum_distances = 0
+    sum_min_moves = 0
     reds, blues = get_red_blue_cells(board)
 
     for blue_cell in blues:
         blue_cell_rq = blue_cell[0]
-        min_distance = 10
+        min_moves = 6
 
         for red_cell in reds:
             red_cell_rq = red_cell[0]
-            distance = get_distance(red_cell_rq, blue_cell_rq)
+            moves = get_min_moves(red_cell_rq, blue_cell_rq, board)
 
-            if distance < min_distance:
-                min_distance = distance
-                min_red_cell = red_cell
+            if moves < min_moves:
+                min_moves = moves
 
-        sum_minimum_distances += min_distance
+        sum_min_moves += min_moves
 
-    return sum_minimum_distances
+    return sum_min_moves
 
 def get_distance(red_cell_rq, blue_cell_rq):
     """Get manhattan distance between a red cell and blue cell"""
@@ -68,6 +67,17 @@ def get_distance(red_cell_rq, blue_cell_rq):
     q_dist = min(abs(red_cell_rq[1] - blue_cell_rq[1]), 6 - abs(red_cell_rq[1] - blue_cell_rq[1]) + 1)
 
     return q_dist + r_dist
+
+def get_min_moves(red_cell_rq, blue_cell_rq, board):
+    """Get min. number of moves to go between a red cell and blue cell"""
+
+    cells_distance = get_distance(red_cell_rq, blue_cell_rq)
+    min_moves = cells_distance - get_power(red_cell_rq, board)
+
+    if (min_moves <= 0):
+        min_moves = 1
+
+    return min_moves
 
 def create_node(parent_state, new_state, new_move, total_index):
     """Creates new "node" structure, given a new board state"""
