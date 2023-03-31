@@ -27,6 +27,7 @@ def search(input: dict[tuple, tuple]) -> list[tuple]:
     # Solution based on BFS
     # Input: type dictionary input of board state
     # Output: list of actions to conquer all blue tokens
+
     solution = bfsSolver(input)
 
     # Space-Time Trade-Off
