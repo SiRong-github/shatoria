@@ -27,6 +27,7 @@ def astar_search(board):
 
     pq.put((root_node["score"], root_node["id"]))
     current_node = all_states[pq.get()[1]]
+    print("score:", current_node["score"])
 
     i = 0
 
@@ -51,6 +52,7 @@ def astar_search(board):
         # print(render_board(current_node["board"], True))
         moves_made.insert(0, current_node["most_recent_move"])
         current_node = all_states[current_node["parent_id"]]
+        print(current_node["score"])
     
     return moves_made
 
@@ -111,11 +113,12 @@ def get_min_moves(red_cell_rq, blue_cell_rq, board):
     """Get min. number of moves to go between a red cell and blue cell"""
 
     cells_distance = get_distance(red_cell_rq, blue_cell_rq)
-    min_moves = cells_distance - get_power(red_cell_rq, board)
+    min_moves = cells_distance - get_power(red_cell_rq, board) + 1
 
     if (min_moves <= 0):
         min_moves = 1
 
+    #print(red_cell_rq, blue_cell_rq, min_moves, cells_distance)
     return min_moves
 
 def create_node(parent_state, new_state, new_move, total_index):

@@ -41,13 +41,12 @@ def astar_search2(board):
             total_index += 1
         i += 1
 
-        #while not pq.empty():
-         #   print(pq.get())
-
         #print("DONE")
         # print(render_board(current_node["board"], True))
         current_node = all_states[pq.get()[1]]
-        #print(render_board(current_node["board"], True))
+        print(render_board(current_node["board"], True))
+        print(i)
+        print(current_node["score"])
         
     moves_made = list()
     while current_node["parent_id"] != None:
@@ -129,7 +128,7 @@ def create_node(parent_state, new_state, new_move, total_index):
                 "score": None,
                 "depth": parent_state["depth"] + 1,
                 "most_recent_move": new_move,
-                "children": None
+                "children": None # delete
     }
 
     new_node["score"] = new_node["depth"] + get_board_score(new_state)
