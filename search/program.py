@@ -6,6 +6,7 @@ from queue import Queue
 from queue import PriorityQueue
 from .bfsHelpers import *
 from .astar_revival import *
+from .ids import *
 
 def search(input: dict[tuple, tuple]) -> list[tuple]:
     """
@@ -24,7 +25,7 @@ def search(input: dict[tuple, tuple]) -> list[tuple]:
     # to True to see a colour-coded version (if your terminal supports it).
     #print(render_board(input, ansi=True))
 
-    moves_made = astar_search(input)
+    moves_made = ids(input)
 
     #print(render_board(input, ansi=True))
 
