@@ -1,4 +1,4 @@
-from .actions_2 import *
+from .actions_helpers import *
 from .constants import *
 
 def ids(board):
@@ -95,7 +95,7 @@ def generate_children(parent_state, total_index):
         # expand red cell in all the possible directions
         for direction in DIRECTIONS:
             # print(parent_board)
-            child_board = spread2(red_cell, direction, parent_board)
+            child_board = spread(red_cell, direction, parent_board)
             child_node = create_node(parent_state, child_board, (red_cell[0] + direction), total_index)
             
             child_nodes.insert(0, child_node)
@@ -123,3 +123,17 @@ def is_goal_state(node):
     reds, blues = get_red_blue_cells(node["board"])
     
     return len(blues) == 0
+
+
+def get_red_blue_cells(board):
+    """Return list of red and blue cells (including their power and color)"""
+    red = list()
+    blue = list()
+
+    for item in board.items():
+        if (item[1][0] == 'r'):
+            red.append(item)
+        else:
+            blue.append(item)
+    
+    return red, blue

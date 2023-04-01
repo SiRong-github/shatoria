@@ -3,47 +3,36 @@ from .utils import render_board #comment out later
 MIN_COORDINATE = 0
 MAX_COORDINATE = 6
 
-def spread(r, q, dr, dq, board, actions_list):
-    """Spreads a red cell (r, q) to the direction (dr, dq). Updates board and list of actions accordingly. Returns True if any blue cell was infected"""
+def spread(cell, direction, board):
+    """Spreads a cell in desired direction. Returns resulting board"""
 
-    # print("Spread!")
-    blue_infected = False
-    new_red_cells = list()
+    copied_board = board.copy()
 
-    parent_cell = (r, q)
-
-    if not valid_spread(parent_cell, board):
+    cell_rq = cell[0]
+    if not valid_spread(cell_rq, copied_board):
         return False
+    
+    curr_power = get_power(cell_rq, copied_board)
 
-    curr_power = get_power((r, q), board)
-
-    spread_cell = (r + dr, q + dq)
+    spread_cell = (cell_rq[0] + direction[0], cell_rq[1] + direction[1])
     while (curr_power != 0):
         spread_cell = check_bounds(spread_cell)
         # print(f"Spreading to:{spread_cell}")
 
-        if (spread_cell not in board):
-            board[spread_cell] = ("r", 1)
+        if (spread_cell not in copied_board):
+            copied_board[spread_cell] = ("r", 1)
 
         else:
-            if (get_color(spread_cell, board) == "b"):
-                blue_infected = True
-            board[spread_cell] = ("r", get_power(spread_cell, board) + 1)
-
-        new_red_cells.append(spread_cell)
+            copied_board[spread_cell] = ("r", get_power(spread_cell, copied_board) + 1)
 
         curr_power -= 1
-        spread_cell = (spread_cell[0] + dr, spread_cell[1] + dq)
 
-    actions_list.append(parent_cell + (dr, dq))
+        spread_cell = (spread_cell[0] + direction[0], spread_cell[1] + direction[1])
 
     # Empty parent cell
-    del board[(r, q)]
+    del copied_board[(cell_rq[0], cell_rq[1])]
 
-    print(render_board(board, ansi=True))
-
-    return (blue_infected, new_red_cells)
-
+    return copied_board
 
 def valid_spread(cell_rq, board):
     """Return true if it's possible to spread cell (r, q), and false otherwise."""
