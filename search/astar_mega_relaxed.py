@@ -27,32 +27,41 @@ def astar_search(board):
 
     pq.put((root_node["score"], root_node["id"]))
     current_node = all_states[pq.get()[1]]
-    print("score:", current_node["score"])
+    # print("score:", current_node["score"])
 
     i = 0
 
-    while not is_goal_state(current_node):
-        for child_node in generate_children(current_node, total_index):
-            all_states[child_node["id"]] = child_node
-            pq.put((child_node["score"], child_node["id"]))
-            # print(render_board(child_node["board"], True))
-            total_index += 1
-        i += 1
+    while True:
+        while not is_goal_state(current_node):
+            for child_node in generate_children(current_node, total_index):
+                all_states[child_node["id"]] = child_node
+                pq.put((child_node["score"], child_node["id"]))
+                # print(render_board(child_node["board"], True))
+                total_index += 1
+            i += 1
 
-        #while not pq.empty():
-         #   print(pq.get())
+            #while not pq.empty():
+            #   print(pq.get())
 
-        #print("DONE")
-        # print(render_board(current_node["board"], True))
-        current_node = all_states[pq.get()[1]]
-        #print(render_board(current_node["board"], True))
+            #print("DONE")
+            # print(render_board(current_node["board"], True))
+            current_node = all_states[pq.get()[1]]
+            #print(render_board(current_node["board"], True))
+        
+        
+        # to check if there is a more optimal solution, even after reaching first goal state
+        potential_solution = pq.get()
+        if potential_solution[0] >= current_node["score"]:
+            break
+        else:
+            current_node = potential_solution[1]
         
     moves_made = list()
     while current_node["parent_id"] != None:
         # print(render_board(current_node["board"], True))
         moves_made.insert(0, current_node["most_recent_move"])
         current_node = all_states[current_node["parent_id"]]
-        print(current_node["score"])
+        # print(current_node["score"])
     
     return moves_made
 
@@ -82,16 +91,13 @@ def generate_children(parent_state, total_index):
 def get_board_score(board):
     """Returns number of moves needed to clear game, assuming that red cell can ONLY jump to a blue cell, multiple times in one move according to the power it has"""
 
-    reds, blues = get_red_blue_cells(board)
-    
+    return relaxed_ids(board)
 
-    return len(blues)
-
-def create_node(parent_state, new_state, new_move, total_index):
-    """Creates new "node" structure, given a new board state"""
+def create_node(parent_state, new_board, new_move, total_index):
+    """Creates new "node" structure, given a new board"""
 
     new_node = {"id": total_index + 1,
-                "board": new_state,
+                "board": new_board,
                 "parent_id": parent_state["id"],
                 "score": None,
                 "depth": parent_state["depth"] + 1,
@@ -99,19 +105,6 @@ def create_node(parent_state, new_state, new_move, total_index):
                 "children": None
     }
 
-    new_node["score"] = new_node["depth"] + get_board_score(new_state)
-
-    return new_node
-
-def create_node(parent_state, new_state, new_move, total_index):
-    """Creates new "node" structure, given a new board state"""
-
-    new_node = {"id": total_index + 1,
-                "board": new_state,
-                "parent_id": parent_state["id"],
-                "depth": parent_state["depth"] + 1,
-                "most_recent_move": new_move,
-                "children": None
-    }
+    new_node["score"] = new_node["depth"] + get_board_score(new_board)
 
     return new_node

@@ -31,6 +31,12 @@ def relaxed_ids(board):
 
         depth += 1
         #print("depth:", depth)
+
+    """
+    current_node = solution_node
+    while current_node["parent_id"] != None:
+        print(render_board(current_node["board"], True))
+        current_node = nodes_dict[current_node["parent_id"]]"""
  
     return solution_node["depth"]
 
@@ -43,6 +49,7 @@ def dls(root_node, depth, nodes_dict, total_index):
 
     while len(stack) != 0:
         current_node = stack.pop(0)
+        #print(render_board(current_node["board"], ansi=True))
         
         #print(current_node["id"])
 
@@ -85,7 +92,13 @@ def generate_children(parent_state, total_index):
     for red_cell in reds:
 
         # expand red cell until power is exhausted in all possible blue cell orders
-        for spread_order in list(permutations(blue_rqs, get_power(red_cell[0], parent_board))):
+
+        # avoid permutation where n > r
+        power = get_power(red_cell[0], parent_board)
+        if (power) > len(blues):
+            power = len(blues)
+
+        for spread_order in list(permutations(blue_rqs, power)):
             curr_board = parent_board.copy()
             
             for blue_cell_rq in spread_order:
