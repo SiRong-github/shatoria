@@ -1,8 +1,9 @@
 from .actions_helpers import *
 from .constants import *
+from itertools import permutations
 
-def ids(board):
-    """Conducts iterative deepening search on board. Returns list of actions to get to goal state."""
+def relaxed_ids(board):
+    """Conducts ids-like search on relaxed Infexion board where red cells can ONLY jump to blue cells, multiple times in one move according to the power it has. Returns minimum number of moves to get to goal state."""
 
     total_index = 1
 
@@ -20,7 +21,7 @@ def ids(board):
 
     depth = 0
     solution_node = None
-    while depth != 7:
+    while True:
         # perform dls up to depth `depth`
         dls_result, total_index = dls(root_node, depth, nodes_dict, total_index)
         # print(total_index)
@@ -83,21 +84,22 @@ def dls(root_node, depth, nodes_dict, total_index):
     return None, total_index
 
 def generate_children(parent_state, total_index):
-    """Generate all possible children of a board state. Returns stack of child nodes"""
+    """Generate all possible children of relaxed game's board state. Returns stack of child nodes"""
 
     parent_board = parent_state["board"]
-    red, blue = get_red_blue_cells(parent_board)
+    reds, blues = get_red_blue_cells(parent_board)
 
     child_nodes = list()
     # for each red cell in board state
-    for red_cell in red:
+    for red_cell in reds:
 
-        # expand red cell in all the possible directions
-        for direction in DIRECTIONS:
-            # print(parent_board)
-            child_board = spread(red_cell, direction, parent_board)
-            child_node = create_node(parent_state, child_board, (red_cell[0] + direction), total_index)
-            
+        # expand red cell until power is exhausted in all possible blue cell orders
+        curr_board = parent_board.copy()
+        for spread_order in list(permutations(blues), get_power(red_cell)):
+            for blue_cell in spread_order:
+                curr_board = spread_relaxed(red_cell, blue_cell, curr_board)
+            child_board = curr_board
+            child_node = create_node(parent_state, child_board, blue_cell, total_index)
             child_nodes.insert(0, child_node)
             total_index += 1
             # print(render_board(child_board, ansi=True))
@@ -116,12 +118,3 @@ def create_node(parent_state, new_state, new_move, total_index):
     }
 
     return new_node
-
-def is_goal_state(node):
-    "Returns whether or not a node has reached goal state"
-
-    reds, blues = get_red_blue_cells(node["board"])
-    
-    return len(blues) == 0
-
-def spread_relaxed(board):

@@ -80,10 +80,10 @@ def generate_children(parent_state, total_index):
     return child_nodes
 
 def get_board_score(board):
-    """Returns number of moves needed to clear game, assuming that red cell can jump to any blue cell for each power unit it has"""
+    """Returns number of moves needed to clear game, assuming that red cell can ONLY jump to a blue cell, multiple times in one move according to the power it has"""
 
     reds, blues = get_red_blue_cells(board)
-
+    
 
     return len(blues)
 

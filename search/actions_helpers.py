@@ -34,6 +34,24 @@ def spread(cell, direction, board):
 
     return copied_board
 
+def spread_relaxed(cell, destination, board):
+    """Spreads a cell to destination. Returns resulting board"""
+
+    copied_board = board.copy()
+
+    cell_rq = cell[0]
+    if not valid_spread(cell_rq, copied_board):
+        return False
+    
+    curr_power = get_power(cell_rq, copied_board)
+    copied_board[destination] = ("r", get_power(destination, copied_board) + 1)
+    curr_power -= 1
+
+    # Empty parent cell
+    del copied_board[(cell_rq[0], cell_rq[1])]
+
+    return copied_board
+
 def valid_spread(cell_rq, board):
     """Return true if it's possible to spread cell (r, q), and false otherwise."""
 
