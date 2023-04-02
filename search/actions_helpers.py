@@ -48,7 +48,8 @@ def spread_relaxed(cell, destination, board):
     curr_power -= 1
 
     # Empty parent cell
-    del copied_board[(cell_rq[0], cell_rq[1])]
+    if (curr_power == 0):
+        del copied_board[(cell_rq[0], cell_rq[1])]
 
     return copied_board
 

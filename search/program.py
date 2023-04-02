@@ -23,6 +23,7 @@ def search(input: dict[tuple, tuple]) -> list[tuple]:
     #print(render_board(input, ansi=True))
 
     moves_made = relaxed_ids(input)
+    print(moves_made)
 
     #print(render_board(input, ansi=True))
 
@@ -36,7 +37,7 @@ def search(input: dict[tuple, tuple]) -> list[tuple]:
     # Just keep in mind that not all cells are necessarily occupied (the dictionary is a sparse representation), so check that the key exists before using it.
 
     # print(solutions.get())
-    return moves_made # solutions.get()
+    return list() # solutions.get()
 
     # Here we're returning "hardcoded" actions for the given test.csv file.
     # Of course, you'll need to replace this with an actual solution...

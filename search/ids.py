@@ -11,7 +11,6 @@ def relaxed_ids(board):
                 "board": board,
                 "parent_id": None,
                 "depth": 0,
-                "most_recent_move": None,
                 "children": None,
     }
 
@@ -32,17 +31,8 @@ def relaxed_ids(board):
 
         depth += 1
         #print("depth:", depth)
-        
-    moves_made = list()
-
-    # 'traverses up' tree from solution node to reconstruct moves done
-    current_node = solution_node
-    while current_node["parent_id"] != None:
-        # print(render_board(current_node["board"], True))
-        moves_made.insert(0, current_node["most_recent_move"])
-        current_node = nodes_dict[current_node["parent_id"]]
-    
-    return moves_made
+ 
+    return solution_node["depth"]
 
 def dls(root_node, depth, nodes_dict, total_index):
     """Performs depth limited search from a root node. Returns None if we have reached max depth but have not found a goal state. Returns solution node otherwise."""
@@ -88,32 +78,33 @@ def generate_children(parent_state, total_index):
 
     parent_board = parent_state["board"]
     reds, blues = get_red_blue_cells(parent_board)
+    blue_rqs = [blue_cell[0] for blue_cell in blues]
 
     child_nodes = list()
     # for each red cell in board state
     for red_cell in reds:
 
         # expand red cell until power is exhausted in all possible blue cell orders
-        curr_board = parent_board.copy()
-        for spread_order in list(permutations(blues), get_power(red_cell)):
-            for blue_cell in spread_order:
-                curr_board = spread_relaxed(red_cell, blue_cell, curr_board)
+        for spread_order in list(permutations(blue_rqs, get_power(red_cell[0], parent_board))):
+            curr_board = parent_board.copy()
+            
+            for blue_cell_rq in spread_order:
+                curr_board = spread_relaxed(red_cell, blue_cell_rq, curr_board)
             child_board = curr_board
-            child_node = create_node(parent_state, child_board, blue_cell, total_index)
+            child_node = create_node(parent_state, child_board, total_index)
             child_nodes.insert(0, child_node)
             total_index += 1
             # print(render_board(child_board, ansi=True))
 
     return child_nodes
 
-def create_node(parent_state, new_state, new_move, total_index):
+def create_node(parent_state, new_state, total_index):
     """Creates new "node" structure, given a new board state"""
 
     new_node = {"id": total_index + 1,
                 "board": new_state,
                 "parent_id": parent_state["id"],
                 "depth": parent_state["depth"] + 1,
-                "most_recent_move": new_move,
                 "children": None
     }
 
