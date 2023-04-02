@@ -66,3 +66,23 @@ def get_power(cell_rq, board):
     """Returns power of cell (r, q) in board."""
 
     return board[cell_rq][1]
+
+def get_red_blue_cells(board):
+    """Return list of red and blue cells (including their power and color)"""
+    red = list()
+    blue = list()
+
+    for item in board.items():
+        if (item[1][0] == 'r'):
+            red.append(item)
+        else:
+            blue.append(item)
+    
+    return red, blue
+
+def is_goal_state(node):
+    "Returns whether or not a node has reached goal state"
+
+    reds, blues = get_red_blue_cells(node["board"])
+    
+    return len(blues) == 0

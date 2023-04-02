@@ -124,16 +124,4 @@ def is_goal_state(node):
     
     return len(blues) == 0
 
-
-def get_red_blue_cells(board):
-    """Return list of red and blue cells (including their power and color)"""
-    red = list()
-    blue = list()
-
-    for item in board.items():
-        if (item[1][0] == 'r'):
-            red.append(item)
-        else:
-            blue.append(item)
-    
-    return red, blue
+def spread_relaxed(board):
