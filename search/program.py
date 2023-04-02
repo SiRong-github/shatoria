@@ -4,7 +4,6 @@
 from .utils import render_board
 from queue import Queue
 from queue import PriorityQueue
-from .bfsHelpers import *
 from .bfsSolver import *
 
 
@@ -29,6 +28,7 @@ def search(input: dict[tuple, tuple]) -> list[tuple]:
     # Output: list of actions to conquer all blue tokens
 
     solution = bfsSolver(input)
+    return solution
 
     # Space-Time Trade-Off
     # It is more efficient to use a dictionary for lookup of elements because it takes less time to traverse in the dictionary than a list.
@@ -41,10 +41,10 @@ def search(input: dict[tuple, tuple]) -> list[tuple]:
 
     # Here we're returning "hardcoded" actions for the given test.csv file.
     # Of course, you'll need to replace this with an actual solution...
-    return [
-        (5, 6, -1, 1),
-        (3, 1, 0, 1),
-        (3, 2, -1, 1),
-        (1, 4, 0, -1),
-        (1, 3, 0, -1)
-    ]
+    # return [
+    #     (5, 6, -1, 1),
+    #     (3, 1, 0, 1),
+    #     (3, 2, -1, 1),
+    #     (1, 4, 0, -1),
+    #     (1, 3, 0, -1)
+    # ]

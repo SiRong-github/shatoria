@@ -46,9 +46,6 @@ def valid_spread(cell, board):
 def check_bounds(cell):
     """If coordinates of a new cell is beyond the bounds of the board when spreading, adjust so that ___. """
 
-    print("cell")
-    print(cell)
-
     if (cell[0] < MIN_COORDINATE):
         cell = (cell[0] % (MAX_COORDINATE+1), cell[1])
     elif (cell[0] > MAX_COORDINATE):
