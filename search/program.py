@@ -5,7 +5,6 @@ from .utils import render_board
 from queue import Queue
 from queue import PriorityQueue
 from .bfsHelpers import *
-from .astar_revival import *
 from .ids import *
 
 def search(input: dict[tuple, tuple]) -> list[tuple]:

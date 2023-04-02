@@ -20,7 +20,7 @@ def ids(board):
 
     depth = 0
     solution_node = None
-    while depth != 7:
+    while True:
         # perform dls up to depth `depth`
         dls_result, total_index = dls(root_node, depth, nodes_dict, total_index)
         # print(total_index)
