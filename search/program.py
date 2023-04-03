@@ -5,6 +5,7 @@ from .utils import render_board
 from .bfsHelpers import *
 from .ids import *
 from .astar_mega_relaxed import *
+import timeit
 
 
 def search(input: dict[tuple, tuple]) -> list[tuple]:
@@ -16,6 +17,8 @@ def search(input: dict[tuple, tuple]) -> list[tuple]:
 
     See the specification document for more details.
     """
+
+    start = timeit.default_timer()
 
     # The render_board function is useful for debugging -- it will print out a
     # board state in a human-readable format. Try changing the ansi argument
@@ -34,6 +37,12 @@ def search(input: dict[tuple, tuple]) -> list[tuple]:
     # MIGHT BE HELPFUL FOR DISTANCE/SPREAD CHECKING
     # You can look up the current occupancy/power of a cell using a coordinate tuple (r, q) as a key.
     # Just keep in mind that not all cells are necessarily occupied (the dictionary is a sparse representation), so check that the key exists before using it.
+
+    #Your statements here
+
+    stop = timeit.default_timer()
+
+    print('Time: ', stop - start)  
 
     # print(solutions.get())
     return moves_made  # solutions.get()
