@@ -3,7 +3,7 @@
 
 from .utils import render_board
 from .bfsHelpers import *
-from .ids import *
+from .heuristic import *
 from .astar_mega_relaxed import *
 import timeit
 

@@ -1,6 +1,6 @@
 from .constants import *
 from .actions_helpers import *
-from .ids import *
+from .heuristic import *
 from queue import PriorityQueue
 from .utils import render_board
 
@@ -99,10 +99,10 @@ def get_board_score(board, nodes_expanded):
 
     # delete
 
-    result = relaxed_ids(board)
-    nodes_expanded += result[1]
+    result = heuristic(board)
+    nodes_expanded += result
 
-    return result[0], nodes_expanded
+    return result, nodes_expanded
 
 def create_node(parent_state, new_board, new_move, total_index, nodes_expanded):
     """Creates new "node" structure, given a new board"""
