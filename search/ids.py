@@ -38,7 +38,7 @@ def relaxed_ids(board):
         print(render_board(current_node["board"], True))
         current_node = nodes_dict[current_node["parent_id"]]"""
  
-    return solution_node["depth"]
+    return solution_node["depth"], len(nodes_dict) # delete len later
 
 def dls(root_node, depth, nodes_dict, total_index):
     """Performs depth limited search from a root node. Returns None if we have reached max depth but have not found a goal state. Returns solution node otherwise."""

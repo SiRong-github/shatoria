@@ -22,7 +22,9 @@ def astar_search(board):
                 "children": None
     }
 
-    root_node["score"] = root_node["depth"] + get_board_score(board)
+    nodes_expanded = 1
+
+    root_node["score"] = root_node["depth"] + get_board_score(board, nodes_expanded)[0]
     all_states[1] = root_node
 
     pq.put((root_node["score"], root_node["id"]))
@@ -33,7 +35,8 @@ def astar_search(board):
 
     while True:
         while not is_goal_state(current_node):
-            for child_node in generate_children(current_node, total_index):
+            child_nodes, nodes_expanded = generate_children(current_node, total_index, nodes_expanded)
+            for child_node in child_nodes:
                 all_states[child_node["id"]] = child_node
                 pq.put((child_node["score"], child_node["id"]))
                 # print(render_board(child_node["board"], True))
@@ -63,9 +66,12 @@ def astar_search(board):
         current_node = all_states[current_node["parent_id"]]
         # print(current_node["score"])
     
+    nodes_expanded += len(all_states)
+    print(nodes_expanded)
+
     return moves_made
 
-def generate_children(parent_state, total_index):
+def generate_children(parent_state, total_index, nodes_expanded):
     """Generate all possible children of a board state. Add to priority queue"""
     parent_board = parent_state["board"]
     red, blue = get_red_blue_cells(parent_board)
@@ -78,7 +84,7 @@ def generate_children(parent_state, total_index):
         for direction in DIRECTIONS:
             # print(parent_board)
             child_board = spread(red_cell, direction, parent_board)
-            child_node = create_node(parent_state, child_board, (red_cell[0] + direction), total_index)
+            child_node, nodes_expanded = create_node(parent_state, child_board, (red_cell[0] + direction), total_index, nodes_expanded)
             
             child_nodes.append(child_node)
             total_index += 1
@@ -86,14 +92,19 @@ def generate_children(parent_state, total_index):
         # evaluate 'score' of state
         # add to PQ
 
-    return child_nodes
+    return child_nodes, nodes_expanded
 
-def get_board_score(board):
+def get_board_score(board, nodes_expanded):
     """Returns number of moves needed to clear game, assuming that red cell can ONLY jump to a blue cell, multiple times in one move according to the power it has"""
 
-    return relaxed_ids(board)
+    # delete
 
-def create_node(parent_state, new_board, new_move, total_index):
+    result = relaxed_ids(board)
+    nodes_expanded += result[1]
+
+    return result[0], nodes_expanded
+
+def create_node(parent_state, new_board, new_move, total_index, nodes_expanded):
     """Creates new "node" structure, given a new board"""
 
     new_node = {"id": total_index + 1,
@@ -105,6 +116,8 @@ def create_node(parent_state, new_board, new_move, total_index):
                 "children": None
     }
 
-    new_node["score"] = new_node["depth"] + get_board_score(new_board)
+    results = get_board_score(new_board, nodes_expanded)
 
-    return new_node
+    new_node["score"] = new_node["depth"] + results[0] # delete idx
+
+    return new_node, results[1]
