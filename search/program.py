@@ -6,6 +6,8 @@ from queue import Queue
 from queue import PriorityQueue
 from .bfsSolver import *
 
+import timeit
+
 
 def search(input: dict[tuple, tuple]) -> list[tuple]:
     """
@@ -27,7 +29,10 @@ def search(input: dict[tuple, tuple]) -> list[tuple]:
     # Input: type dictionary input of board state
     # Output: list of actions to conquer all blue tokens
 
+    start = timeit.default_timer()
     solution = bfsSolver(input)
+    stop = timeit.default_timer()
+    print('Time: ', stop - start)
     return solution
 
     # Space-Time Trade-Off
