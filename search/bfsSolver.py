@@ -105,6 +105,10 @@ def bfsSolver(board):
                     moves = [moves]
                 # Return move if won
                 if redWins(newBoard):
+                    print(len(paths))
+#                    for i in range(len(paths)):
+#                        print(paths[i])
+#                        print("\n")
                     return moves
                 # Account for new red tokens in possible moves
                 reds = {}
