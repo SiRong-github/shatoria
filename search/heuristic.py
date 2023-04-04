@@ -43,6 +43,7 @@ def generate_board_child(parent_board):
     if (power) > len(blues):
         power = len(blues)
 
+    # blue cells to spread to (can only spread to 'power' number of blue cells)
     spread_targets = list()
     for blue_cell in sorted_blues:
         spread_targets.append(blue_cell[0])

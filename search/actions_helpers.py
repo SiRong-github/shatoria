@@ -12,25 +12,28 @@ def spread(cell, direction, board):
     
     curr_power = get_power(cell_rq, copied_board)
 
+    # Spreads cells across board in `direction` according to `cell`'s power
     spread_cell = (cell_rq[0] + direction[0], cell_rq[1] + direction[1])
     while (curr_power != 0):
         spread_cell = check_bounds(spread_cell)
-        # print(f"Spreading to:{spread_cell}")
 
+        # spread to an empty space
         if (spread_cell not in copied_board):
             copied_board[spread_cell] = ("r", 1)
 
-        # delete cell spread to if their power is above 6
+        # delete destination cell from board if its power is above 6
         elif (get_power(spread_cell, copied_board) + 1 > MAX_COORDINATE):
             del copied_board[spread_cell]
 
+        # add to power of existing cell and infect it to red
         else:
             copied_board[spread_cell] = ("r", get_power(spread_cell, copied_board) + 1)
 
         curr_power -= 1
+        # next cell to plant on board
         spread_cell = (spread_cell[0] + direction[0], spread_cell[1] + direction[1])
 
-    # Empty parent cell
+    # remove parent cell from board
     del copied_board[(cell_rq[0], cell_rq[1])]
 
     return copied_board
@@ -46,13 +49,15 @@ def spread_relaxed(cell, destinations, board):
         if not valid_spread(cell_rq, copied_board):
             return False
 
+        # delete destination cell from board if its power is above 6
         if (get_power(destination_rq, copied_board) + 1 > MAX_COORDINATE):
             del copied_board[destination_rq]
-            
+        
+        # add to power of existing cell and infect it to red
         else:
             copied_board[destination_rq] = ("r", get_power(destination_rq, copied_board) + 1)
 
-    # Empty parent cell
+    # remove parent cell from board
     del copied_board[(cell_rq[0], cell_rq[1])]
 
     return copied_board

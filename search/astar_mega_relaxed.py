@@ -29,9 +29,6 @@ def astar_search(board):
 
     pq.put((root_node["score"], root_node["id"]))
     current_node = all_states[pq.get()[1]]
-    # print("score:", current_node["score"])
-
-    i = 0
 
     while True:
         while not is_goal_state(current_node):
@@ -39,20 +36,11 @@ def astar_search(board):
             for child_node in child_nodes:
                 all_states[child_node["id"]] = child_node
                 pq.put((child_node["score"], child_node["id"]))
-                # print(render_board(child_node["board"], True))
+                
                 total_index += 1
-            i += 1
 
-            #while not pq.empty():
-            #   print(pq.get())
-
-            #print("DONE")
-            # print(render_board(current_node["board"], True))
             current_node = all_states[pq.get()[1]]
-            #print(render_board(current_node["board"], True))
         
-        
-        # to check if there is a more optimal solution, even after reaching first goal state
         potential_solution = pq.get()
         if potential_solution[0] >= current_node["score"]:
             break
@@ -62,13 +50,10 @@ def astar_search(board):
     moves_made = list()
 
     while current_node["parent_id"] != None:
-        # print(render_board(current_node["board"], True))
         moves_made.insert(0, current_node["most_recent_move"])
         current_node = all_states[current_node["parent_id"]]
-        # print(current_node["score"])
     
     nodes_expanded += len(all_states)
-    # print(nodes_expanded)
 
     return moves_made
 
