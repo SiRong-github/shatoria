@@ -58,7 +58,8 @@ def astar_search(board):
     return moves_made
 
 def generate_children(parent_state, total_index, nodes_expanded):
-    """Generate all possible children of a board state. Add to priority queue"""
+    """Generate all possible children of a parent board state. Returns child nodes"""
+
     parent_board = parent_state["board"]
     red, blue = get_red_blue_cells(parent_board)
 
@@ -67,7 +68,6 @@ def generate_children(parent_state, total_index, nodes_expanded):
     for red_cell in red:
         # expand red cell in all the possible directions
         for direction in DIRECTIONS:
-            # print(parent_board)
             child_board = spread(red_cell, direction, parent_board)
 
             # In the case that the child board has no more red cells but still has blue cells (possible in spread_test.csv for instance), abort expanding the node
@@ -79,16 +79,10 @@ def generate_children(parent_state, total_index, nodes_expanded):
             
             child_nodes.append(child_node)
             total_index += 1
-            # print(render_board(child_board, ansi=True))
-        # evaluate 'score' of state
-        # add to PQ
-
     return child_nodes, nodes_expanded
 
 def get_board_score(board, nodes_expanded):
-    """Returns number of moves needed to clear game, assuming that red cell can ONLY jump to a blue cell, multiple times in one move according to the power it has"""
-
-    # delete
+    """Returns number of moves needed to clear game, assuming that red cell can ONLY jump to a blue cell, multiple times in one move according to the power it has. See report.pdf for clearer description"""
 
     result = heuristic(board)
     nodes_expanded += result
@@ -109,6 +103,6 @@ def create_node(parent_state, new_board, new_move, total_index, nodes_expanded):
 
     results = get_board_score(new_board, nodes_expanded)
 
-    new_node["score"] = new_node["depth"] + results[0] # delete idx
+    new_node["score"] = new_node["depth"] + results[0]
 
     return new_node, results[1]
