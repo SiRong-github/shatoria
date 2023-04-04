@@ -31,7 +31,9 @@ def astar_search(board):
 
     pq.put((root_node["score"], root_node["id"]))
     current_node = all_states[pq.get()[1]]
+    current_solution = current_node
 
+    first_iteration = True
     # Run A* search
     while True:
         # Continue generating children until a goal state is reached
@@ -44,19 +46,29 @@ def astar_search(board):
                 total_index += 1
 
             current_node = all_states[pq.get()[1]]
+        #print("FOUND")
+        # We found a solution more optimal than the previous one OR it's the first time we found a solution - update current_solution
+        if ((not first_iteration and current_node["score"] < current_solution)
+            or first_iteration):
+            current_solution = current_node
+        else:
+            current_solution = current_node
+            first_iteration = False
         
-        # Check if any other nodes could still possibly result in an optimal soltuion
+        # Check if any other nodes could still possibly result in an optimal solution
         potential_solution = pq.get()
-        if potential_solution[0] >= current_node["score"]:
+        if potential_solution[0] >= current_solution["score"]:
+            #print("ALL G")
             break
         else:
+            #print("TRY AGAIN")
             current_node = potential_solution[1]
         
     # Reconstruct moves made to get to optimal solution
     moves_made = list()
-    while current_node["parent_id"] != None:
-        moves_made.insert(0, current_node["most_recent_move"])
-        current_node = all_states[current_node["parent_id"]]
+    while current_solution["parent_id"] != None:
+        moves_made.insert(0, current_solution["most_recent_move"])
+        current_solution = all_states[current_solution["parent_id"]]
     
     nodes_expanded += len(all_states)
 
