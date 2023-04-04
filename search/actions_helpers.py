@@ -2,7 +2,6 @@ from .utils import render_board
 from .constants import *
 
 def spread(cell, direction, board):
-    # URGENT: MAKE IT SO THAT WHEN SPREAD HAPPENS TO 6 TOKEN IT DELETES IT OFF THE BOARD
     """Spreads a cell in desired direction. Returns resulting board"""
 
     copied_board = board.copy()
@@ -21,11 +20,14 @@ def spread(cell, direction, board):
         if (spread_cell not in copied_board):
             copied_board[spread_cell] = ("r", 1)
 
+        # delete cell spread to if their power is above 6
+        elif (get_power(spread_cell, copied_board) + 1 > MAX_COORDINATE):
+            del copied_board[spread_cell]
+
         else:
             copied_board[spread_cell] = ("r", get_power(spread_cell, copied_board) + 1)
 
         curr_power -= 1
-
         spread_cell = (spread_cell[0] + direction[0], spread_cell[1] + direction[1])
 
     # Empty parent cell
@@ -33,22 +35,25 @@ def spread(cell, direction, board):
 
     return copied_board
 
-def spread_relaxed(cell, destination, board):
-    """Spreads a cell to destination. Returns resulting board"""
+def spread_relaxed(cell, destinations, board):
+    """Spreads a cell to destination cells in 'relaxed infexion'. Returns resulting board"""
 
     copied_board = board.copy()
-
     cell_rq = cell[0]
-    if not valid_spread(cell_rq, copied_board):
-        return False
-    
-    curr_power = get_power(cell_rq, copied_board)
-    copied_board[destination] = ("r", get_power(destination, copied_board) + 1)
-    curr_power -= 1
+
+    for destination_rq in destinations:
+
+        if not valid_spread(cell_rq, copied_board):
+            return False
+
+        if (get_power(destination_rq, copied_board) + 1 > MAX_COORDINATE):
+            del copied_board[destination_rq]
+            
+        else:
+            copied_board[destination_rq] = ("r", get_power(destination_rq, copied_board) + 1)
 
     # Empty parent cell
-    if (curr_power == 0):
-        del copied_board[(cell_rq[0], cell_rq[1])]
+    del copied_board[(cell_rq[0], cell_rq[1])]
 
     return copied_board
 
@@ -59,7 +64,7 @@ def valid_spread(cell_rq, board):
 
 
 def check_bounds(cell):
-    """If coordinates of a new cell is beyond the bounds of the board when spreading, adjust so that ___. """
+    """If coordinates of a new cell is beyond the bounds of the board when spreading, adjust so that it teleports to the correct location on the board."""
 
     if (cell[0] < MIN_COORDINATE):
         cell = (cell[0] % (MAX_COORDINATE+1), cell[1])
@@ -86,7 +91,7 @@ def get_power(cell_rq, board):
     return board[cell_rq][1]
 
 def get_red_blue_cells(board):
-    """Return list of red and blue cells (including their power and color)"""
+    """Return list of red and blue cells on board (including their power and color)"""
     red = list()
     blue = list()
 

@@ -37,6 +37,12 @@ def astar_search(board):
         while not is_goal_state(current_node):
             child_nodes, nodes_expanded = generate_children(current_node, total_index, nodes_expanded)
             for child_node in child_nodes:
+                # In the case that the board state has no more red cells but still has blue cells (possible in spread_test.csv for instance), abort the node
+                reds, blues = get_red_blue_cells(child_node["board"])
+                if len(reds) == 0:
+                    print("YEAH")
+                    continue
+
                 all_states[child_node["id"]] = child_node
                 pq.put((child_node["score"], child_node["id"]))
                 # print(render_board(child_node["board"], True))
@@ -60,6 +66,7 @@ def astar_search(board):
             current_node = potential_solution[1]
         
     moves_made = list()
+
     while current_node["parent_id"] != None:
         # print(render_board(current_node["board"], True))
         moves_made.insert(0, current_node["most_recent_move"])
@@ -67,7 +74,7 @@ def astar_search(board):
         # print(current_node["score"])
     
     nodes_expanded += len(all_states)
-    print(nodes_expanded)
+    # print(nodes_expanded)
 
     return moves_made
 

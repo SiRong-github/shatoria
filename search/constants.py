@@ -11,3 +11,4 @@ limit = 343
 DIRECTIONS = [up, upLeft, upRight, down, downLeft, downRight]
 MIN_COORDINATE = 0
 MAX_COORDINATE = 6
+MAX_POWER = 6
