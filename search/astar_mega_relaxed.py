@@ -7,12 +7,14 @@ from .utils import render_board
 def astar_search(board):
     """Conducts A star search on board. Returns list of actions to get to goal state."""
 
+    # Store all nodes that have been explored
     all_states = dict()
+
+    # To store nodes to be expanded, in ascending order of f(n)
     pq = PriorityQueue()
 
-    # priority queue depth but where do we start
+    # Initialize root node
     total_index = 1
-
     root_node = {"id": 1,
                 "board": board,
                 "parent_id": None,
@@ -30,7 +32,9 @@ def astar_search(board):
     pq.put((root_node["score"], root_node["id"]))
     current_node = all_states[pq.get()[1]]
 
+    # Run A* search
     while True:
+        # Continue generating children until a goal state is reached
         while not is_goal_state(current_node):
             child_nodes, nodes_expanded = generate_children(current_node, total_index, nodes_expanded)
             for child_node in child_nodes:
@@ -41,14 +45,15 @@ def astar_search(board):
 
             current_node = all_states[pq.get()[1]]
         
+        # Check if any other nodes could still possibly result in an optimal soltuion
         potential_solution = pq.get()
         if potential_solution[0] >= current_node["score"]:
             break
         else:
             current_node = potential_solution[1]
         
+    # Reconstruct moves made to get to optimal solution
     moves_made = list()
-
     while current_node["parent_id"] != None:
         moves_made.insert(0, current_node["most_recent_move"])
         current_node = all_states[current_node["parent_id"]]
