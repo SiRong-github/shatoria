@@ -37,12 +37,6 @@ def astar_search(board):
         while not is_goal_state(current_node):
             child_nodes, nodes_expanded = generate_children(current_node, total_index, nodes_expanded)
             for child_node in child_nodes:
-                # In the case that the board state has no more red cells but still has blue cells (possible in spread_test.csv for instance), abort the node
-                reds, blues = get_red_blue_cells(child_node["board"])
-                if len(reds) == 0:
-                    print("YEAH")
-                    continue
-
                 all_states[child_node["id"]] = child_node
                 pq.put((child_node["score"], child_node["id"]))
                 # print(render_board(child_node["board"], True))
@@ -86,11 +80,16 @@ def generate_children(parent_state, total_index, nodes_expanded):
     child_nodes = list()
     # for each red cell in board state
     for red_cell in red:
-
         # expand red cell in all the possible directions
         for direction in DIRECTIONS:
             # print(parent_board)
             child_board = spread(red_cell, direction, parent_board)
+
+            # In the case that the child board has no more red cells but still has blue cells (possible in spread_test.csv for instance), abort expanding the node
+            child_red, child_blue = get_red_blue_cells(child_board)
+            if len(child_red) == 0 and len(child_blue) != 0:
+                continue
+
             child_node, nodes_expanded = create_node(parent_state, child_board, (red_cell[0] + direction), total_index, nodes_expanded)
             
             child_nodes.append(child_node)

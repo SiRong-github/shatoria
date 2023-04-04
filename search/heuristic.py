@@ -6,15 +6,13 @@ def heuristic(board):
     """Finds estimate of minimum number of moves to get from board state to goal state by finding optimal solution for relaxed Infexion board where red cells can ONLY jump to blue cells, multiple times in one move according to the power it has. Returns optimal number of moves to get to goal state."""
 
     curr_board = board.copy()
-    print("start\n", render_board(curr_board, ansi=True))
 
     # Play relaxed infexion with optimal moves until goal is reached.
     num_moves = 0
     while not is_goal_board(curr_board):
         curr_board = generate_board_child(curr_board)
-        print(render_board(curr_board, ansi=True))
         num_moves += 1
-    print("END")
+    
     return num_moves
 
 def generate_board_child(parent_board):
@@ -24,7 +22,6 @@ def generate_board_child(parent_board):
 
     # always spread red with highest power
     sorted_reds = sorted(reds, key=lambda cell: cell[1][1])
-    print(sorted_reds)
     to_spread = sorted_reds[0]
 
     # always infect blue cells with highest powers first (other than 6, since spreading to a power of 6 cell will just remove it) since they'll result in high-power red cells, so we can get to shortest possible moves faster
@@ -40,7 +37,6 @@ def generate_board_child(parent_board):
         power_sixes = sorted_blues[:sixes_idx]
         del sorted_blues[:sixes_idx]
         sorted_blues = sorted_blues + power_sixes
-    print(sorted_blues)
 
     # avoid trying to infect more than existing number of blue cells (power of red cell > num of blue cells left)
     power = get_power(to_spread[0], parent_board)
