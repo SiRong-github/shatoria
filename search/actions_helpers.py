@@ -4,6 +4,7 @@ MIN_COORDINATE = 0
 MAX_COORDINATE = 6
 
 def spread(cell, direction, board):
+    # URGENT: MAKE IT SO THAT WHEN SPREAD HAPPENS TO 6 TOKEN IT DELETES IT OFF THE BOARD
     """Spreads a cell in desired direction. Returns resulting board"""
 
     copied_board = board.copy()
