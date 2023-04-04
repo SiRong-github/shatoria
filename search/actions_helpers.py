@@ -1,7 +1,5 @@
-from .utils import render_board #comment out later
-
-MIN_COORDINATE = 0
-MAX_COORDINATE = 6
+from .utils import render_board
+from .constants import *
 
 def spread(cell, direction, board):
     # URGENT: MAKE IT SO THAT WHEN SPREAD HAPPENS TO 6 TOKEN IT DELETES IT OFF THE BOARD
