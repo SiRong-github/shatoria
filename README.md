@@ -1,5 +1,5 @@
 # University Subject
-This is a COMP30024 Artificial Intelligence Project created by a two-person team.
+This is a COMP30024 Artificial Intelligence Project of the University of Melbourne created by a two-person team.
 
 # File Purpose
 The program implements a list of SPREAD actions with the lowest cost win sequence for one of the players in a strategic, perfect-information single-player version of the two-player game of contagion and domination called Infexion.
