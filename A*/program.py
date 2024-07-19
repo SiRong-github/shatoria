@@ -16,17 +16,8 @@ def search(input: dict[tuple, tuple]) -> list[tuple]:
 
     See the specification document for more details.
     """
-
     start = timeit.default_timer()
-
-    # print(render_board(input, ansi=True))
-
-    moves_made = astar_search(input)
-
-    # print(render_board(input, ansi=True))
-
+    solution = astar_search(input)
     stop = timeit.default_timer()
-
-    # print('Time: ', stop - start)  
-
-    return moves_made 
+    print('Time: ', stop - start)
+    return solution
