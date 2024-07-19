@@ -2,7 +2,10 @@
 This is a COMP30024 Artificial Intelligence Project of the University of Melbourne created by a two-person team.
 
 # File Purpose
-The program implements a list of SPREAD actions with the lowest cost win sequence for one of the players in a strategic, perfect-information single-player version of the two-player game of contagion and domination called Infexion. Further details are provided below. For the full version of the game, head [here](https://github.com/SiRong-github/shatoriaP2).
+The program implements a list of SPREAD actions with the lowest cost win sequence for one of the players in a strategic, perfect-information single-player version of the two-player game of contagion and domination called Infexion. Further details are in the File-Level Documentation. For the full version of the game, head [here](https://github.com/SiRong-github/shatoriaP2).
+
+# Demo
+https://github.com/user-attachments/assets/e2b64dd1-71f6-449a-8202-d1797fa582a9
 
 # File-Level Documentation
 Infexion consists of a 7x7 hexagonally-tiled, infinitely repeating board, described by an axial coordinate system in the program. A valid coordinate is an integer pair (r,q), 0 ≤ r ≤ 6, 0 ≤ q ≤ 6. The objective of the players (named Red and Blue) are to conquer all the 'tokens' on the board.
