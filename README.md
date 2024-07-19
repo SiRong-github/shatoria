@@ -1,10 +1,9 @@
 # University Subject
 This is a COMP30024 Artificial Intelligence Project of the University of Melbourne created by a two-person team.
 
-## Report Pdf
-[Report](https://github.com/SiRong-github/shatoria/blob/main/Report.pdf)
+## Important Documents
+Click here to see the pdf version of the [report](https://github.com/SiRong-github/shatoria/blob/main/Report.pdf)
 
-## Demo
 https://github.com/user-attachments/assets/e2b64dd1-71f6-449a-8202-d1797fa582a9
 
 # File Purpose
