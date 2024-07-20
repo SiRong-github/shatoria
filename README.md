@@ -1,11 +1,6 @@
 # University Subject
 This is a COMP30024 Artificial Intelligence Project of the University of Melbourne created by a two-person team.
 
-## Important Documents
-Click here to see the pdf version of the [report](https://github.com/SiRong-github/shatoria/blob/main/Report.pdf).
-
-https://github.com/user-attachments/assets/e2b64dd1-71f6-449a-8202-d1797fa582a9
-
 # File Purpose
 The program implements a list of SPREAD actions with the lowest cost win sequence for one of the players in a strategic, perfect-information single-player version of the two-player game of contagion and domination called Infexion. Further details are in the File-Level Documentation. For the full version of the game, head to [shatoriaP2](https://github.com/SiRong-github/shatoriaP2). You may also play the game with a friend [here](https://comp30024.pages.gitlab.unimelb.edu.au/2023s1/infexion-playground/).
 
@@ -25,6 +20,9 @@ In a turn, a player may choose to either:
         * The moving player takes control of any opponent-controlled stacks where a token has been placed on top.
 
  In the case that a stack is incremented above POWER 6 (the maximum possible power), the stack is completely removed from the game, leaving the cell empty. This also consumes the SPREAD token that would have been placed on top.
+
+## Demo
+https://github.com/user-attachments/assets/e2b64dd1-71f6-449a-8202-d1797fa582a9
 
 # Provided Template
 search module
