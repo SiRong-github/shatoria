@@ -22,7 +22,7 @@ In a turn, a player may choose to either:
  In the case that a stack is incremented above POWER 6 (the maximum possible power), the stack is completely removed from the game, leaving the cell empty. This also consumes the SPREAD token that would have been placed on top.
 
 ## Demo
-https://github.com/user-attachments/assets/e2b64dd1-71f6-449a-8202-d1797fa582a9
+https://github.com/user-attachments/assets/f0526f62-38e5-4a71-90b4-0f11b3f7f1c7
 
 # Provided Template
 search module
